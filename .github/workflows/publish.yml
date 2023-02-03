@@ -1,0 +1,99 @@
+name: Build & Publish to GH Pages
+on:
+  push:
+    tags:
+      - 'publish*'
+jobs:
+  publish:
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Anaconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          auto-activate-base: true
+          miniconda-version: 'latest'
+          python-version: 3.9
+          environment-file: environment.yml
+          activate-environment: lecture-datascience
+      - name: Display Conda Environment Versions
+        shell: bash -l {0}
+        run: conda list
+      - name: Display Pip Versions
+        shell: bash -l {0}
+        run: pip list
+      # Build Assets (Download Notebooks and PDF via LaTeX)
+      # - name: Build PDF from LaTeX
+      #   shell: bash -l {0}
+      #   run: |
+      #     jb build lectures --builder pdflatex --path-output ./ -n --keep-going
+      # - name: Copy LaTeX PDF for GH-PAGES
+      #   shell: bash -l {0}
+      #   run: |
+      #     mkdir -p _build/html/_pdf
+      #     cp -u _build/latex/*.pdf _build/html/_pdf
+      - name: Build Download Notebooks (sphinx-tojupyter)
+        shell: bash -l {0}
+        run: |
+          jb build lectures --path-output ./ --builder=custom --custom-builder=jupyter
+          zip -r download-notebooks.zip _build/jupyter
+      - uses: actions/upload-artifact@v2
+        with:
+          name: download-notebooks
+          path: download-notebooks.zip
+      - name: Copy Download Notebooks for GH-PAGES
+        shell: bash -l {0}
+        run: |
+          mkdir -p _build/html/_notebooks
+          rsync -r  _build/jupyter/ _build/html/_notebooks/
+      - name: Copy Data Assets for Deployment
+        shell: bash -l {0}
+        run: |
+          mkdir -p _build/html/assets/data
+          cp -a lectures/_data/. _build/html/assets/data/          
+      # Build Website
+      - name: Build HTML
+        shell: bash -l {0}
+        run: |
+          jb build lectures --path-output ./ -W --keep-going
+      - name: Upload Execution Reports
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: execution-reports
+          path: _build/html/reports
+      - name: Deploy website to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _build/html/
+          cname: datascience.quantecon.org
+      - name: Upload "_build" folder (cache)
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-publish
+          path: _build
+      - name: Prepare lecture-datascience.notebooks sync
+        shell: bash -l {0}
+        # the _build folder is different to other projects due to
+        # nested folder structures. So removing _panel_static and _static
+        # after copying
+        run: |
+          mkdir -p _build/lecture-datascience.notebooks
+          cp -a _notebook_repo/. _build/lecture-datascience.notebooks
+          cp -a _build/jupyter/. _build/lecture-datascience.notebooks
+          rm -r _build/lecture-datascience.notebooks/_*
+          ls -a _build/lecture-datascience.notebooks
+      - name: Commit latest notebooks to lecture-datascience.notebooks
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: '_build/lecture-datascience.notebooks'
+          destination-github-username: 'QuantEcon'
+          destination-repository-name: 'lecture-datascience.notebooks'
+          user-email: services@quantecon.org
+          target-branch: 'main'

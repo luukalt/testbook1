@@ -1,0 +1,43 @@
+name: lecture-datascience
+channels:
+  - default
+dependencies:
+  - python=3.9
+  - anaconda=2022.05
+  - pip
+  - pip:
+    - jupyter-book
+    - sphinxext-rediraffe
+    - sphinx-multitoc-numbering
+    - sphinx-exercise
+    - joblib
+    - interpolation
+    - sphinx-tojupyter
+    - networkx
+    - fiona 
+    - geopandas 
+    - pyLDAvis >= 3.3.0
+    - gensim 
+    - folium 
+    - descartes 
+    - pyarrow
+    - xgboost
+    - graphviz
+    - bokeh
+    - sphinxcontrib-bibtex
+    - quantecon-book-theme>=0.3.0,<0.4.0
+    - nltk
+    - seaborn
+    - patsy
+    - quandl
+    - statsmodels
+    - quantecon
+    - openpyxl
+    - pandas_datareader
+    - plotly
+    - lxml
+    - scikit-learn>1.0
+    - numba
+  - conda:
+    - python-graphviz
+
