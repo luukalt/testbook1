@@ -16,36 +16,36 @@ parts:
     - file: python_fundamentals/collections
     - file: python_fundamentals/control_flow
     - file: python_fundamentals/functions
-- caption: Scientific Computing
-  chapters:
-    - file: scientific/index
-    - file: scientific/numpy_arrays
-    - file: scientific/plotting
-    - file: scientific/applied_linalg
-    - file: scientific/randomness
-    - file: scientific/optimization
-- caption: Pandas
-  chapters:
-    - file: pandas/index
-    - file: pandas/intro
-    - file: pandas/basics
-    - file: pandas/the_index
-    - file: pandas/storage_formats
-    - file: pandas/data_clean
-    - file: pandas/reshape
-    - file: pandas/merge
-    - file: pandas/groupby
-    - file: pandas/timeseries
-    - file: pandas/matplotlib
-- caption: Applications
-  chapters:
-    - file: applications/index
-    - file: applications/visualization_rules
-    - file: applications/regression
-    - file: applications/recidivism
-    - file: applications/maps
-    - file: applications/classification
-    - file: applications/working_with_text
-    - file: applications/ml_in_economics
-    - file: applications/heterogeneity
-    - file: applications/networks
+# - caption: Scientific Computing
+  # chapters:
+    # - file: scientific/index
+    # - file: scientific/numpy_arrays
+    # - file: scientific/plotting
+    # - file: scientific/applied_linalg
+    # - file: scientific/randomness
+    # - file: scientific/optimization
+# - caption: Pandas
+  # chapters:
+    # - file: pandas/index
+    # - file: pandas/intro
+    # - file: pandas/basics
+    # - file: pandas/the_index
+    # - file: pandas/storage_formats
+    # - file: pandas/data_clean
+    # - file: pandas/reshape
+    # - file: pandas/merge
+    # - file: pandas/groupby
+    # - file: pandas/timeseries
+    # - file: pandas/matplotlib
+# - caption: Applications
+  # chapters:
+    # - file: applications/index
+    # - file: applications/visualization_rules
+    # - file: applications/regression
+    # - file: applications/recidivism
+    # - file: applications/maps
+    # - file: applications/classification
+    # - file: applications/working_with_text
+    # - file: applications/ml_in_economics
+    # - file: applications/heterogeneity
+    # - file: applications/networks

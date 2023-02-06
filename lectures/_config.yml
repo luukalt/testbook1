@@ -8,7 +8,7 @@ execute:
   timeout: 1000
 
 html:
-  baseurl: https://datascience.quantecon.org/
+  baseurl: https://wwww.google.com
 
 sphinx:
   extra_extensions: [sphinx_multitoc_numbering, sphinx_exercise, sphinx_tojupyter]
@@ -17,8 +17,8 @@ sphinx:
     html_static_path: ['_static']
     html_theme: quantecon_book_theme
     html_theme_options:
-      header_organisation_url: https://quantecon.org
-      header_organisation: QuantEcon
+      header_organisation_url: https://luuk.org
+      header_organisation: luuk
       repository_url: https://github.com/QuantEcon/lecture-datascience.myst
       repository_branch: main
       nb_repository_url: https://github.com/QuantEcon/lecture-datascience.notebooks
